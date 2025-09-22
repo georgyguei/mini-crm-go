@@ -231,11 +231,11 @@ GOOS=darwin GOARCH=amd64 go build -o mini-crm-mac main.go
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source.
 
 ---
 
-**Author**: Your Name  
+**Author**: Georgy Guei 
 **Course**: Go Programming  
 **Project**: Mini Command Line CRM  
 **Date**: September 2025
