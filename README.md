@@ -235,7 +235,7 @@ This project is open source.
 
 ---
 
-**Author**: Georgy Guei 
+**Author**: Georgy Guei  
 **Course**: Go Programming  
 **Project**: Mini Command Line CRM  
 **Date**: September 2025
