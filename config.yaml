@@ -1,0 +1,18 @@
+# Mini CRM Configuration
+# This file controls the behavior of the CRM application
+
+app:
+  name: "Mini CRM"
+  version: "2.0.0"
+
+storage:
+  # Storage type: memory, json, or gorm
+  # - memory: In-memory storage (data lost on restart)
+  # - json: JSON file storage (human-readable)
+  # - gorm: SQLite database (robust and persistent)
+  type: "json"
+  
+  # File path for json and gorm storage types
+  # For json: path to .json file (e.g., "contacts.json")
+  # For gorm: path to .db file (e.g., "contacts.db")
+  filepath: "contacts.db"
