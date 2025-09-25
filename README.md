@@ -1,241 +1,269 @@
-# Mini Command Line CRM
+# 🚀 Mini CRM CLI
 
-A simple command-line Customer Relationship Management (CRM) system built with Go. This project demonstrates key Go concepts including maps, structs, error handling, the comma ok idiom, and command-line interfaces.
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8.svg)](https://golang.org/doc/install)
 
-## Features
+A command-line Customer Relationship Management system built in Go, demonstrating clean architecture and professional development practices.
 
-✅ **Interactive Menu System**
-- Clean, user-friendly command-line interface
-- Easy navigation with numbered options
+## ✨ Features
 
-✅ **Contact Management**
-- Add contacts with ID, Name, and Email
-- List all contacts in a formatted table
-- Search for contacts by ID
-- Update existing contact information
-- Delete contacts with confirmation
+### 🎯 Core Functionality
 
-✅ **Command-Line Flags Support**
-- Add contacts directly via command-line arguments
-- Quick contact creation without interactive menu
+- 📋 **Complete CRUD Operations**: Create, Read, Update, and Delete contacts
+- 🎨 **Beautiful CLI Interface**: Professional command-line experience with Cobra
+- ⚡ **Zero-Downtime Configuration**: Switch storage backends without recompiling
+- 🛡️ **Smart Validation**: French mobile number validation and business rules
+- 🔍 **Intuitive Commands**: Flag-based interface with comprehensive help
 
-✅ **Data Validation**
-- Input validation for names and emails
-- Error handling for invalid IDs
-- Confirmation prompts for destructive operations
+### 🗄️ Multiple Storage Backends
 
-## Installation
+- 🧠 **Memory Storage**: Lightning-fast in-memory storage for testing
+- 📄 **JSON Storage**: Human-readable file storage for small datasets
+- 🗃️ **SQLite Database**: Production-ready database with GORM ORM
 
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-url>
-   cd mini-crm
-   ```
+## 🚀 Quick Start
 
-2. **Ensure you have Go installed:**
-   ```bash
-   go version
-   ```
-   *Requires Go 1.21 or later*
-
-3. **Run the application:**
-   ```bash
-   go run main.go
-   ```
-
-## Usage
-
-### Interactive Mode
-
-Run the application without flags to enter interactive mode:
+### Installation
 
 ```bash
-go run main.go
+# Clone the repository
+git clone https://github.com/georgyguei/mini-crm-go
+cd mini-crm
+
+# Build the application
+go build -o mini-crm
+
+# Run it!
+./mini-crm --help
 ```
 
-You'll see the main menu:
-```
-=== Mini CRM ===
-1. Add a contact
-2. List all contacts
-3. Search for a contact by ID
-4. Update a contact
-5. Delete a contact
-6. Exit
-Choose an option (1-6):
-```
+_Requires Go 1.21 or later_
 
-### Command-Line Mode
-
-Add contacts directly using flags:
+### Basic Usage
 
 ```bash
-# Add a contact via command line
-go run main.go -add -name="John Doe" -email="john@example.com"
+# Add a contact
+./mini-crm add --name "John Doe" --email "john@example.com" --phone "0612345678"
 
-# Add another contact
-go run main.go -add -name="Jane Smith" -email="jane.smith@company.com"
+# List all contacts
+./mini-crm list
+
+# Get specific contact
+./mini-crm get 1
+
+# Update a contact
+./mini-crm update 1 --name "John Smith"
+
+# Delete a contact (with confirmation)
+./mini-crm delete 1
 ```
 
-## Examples
+## ⚙️ Configuration
 
-### Adding a Contact (Interactive)
-```
-Choose an option (1-6): 1
-Enter contact name: Alice Johnson
-Enter contact email: alice@email.com
-Contact added successfully! ID: 1
-```
+The magic ✨ of Mini CRM lies in its **zero-downtime configuration switching**. Simply edit `config.yaml` to change storage backends without recompiling!
 
-### Listing All Contacts
-```
-Choose an option (1-6): 2
+```yaml
+# config.yaml
+app:
+  name: "Mini CRM"
+  version: "2.0.0"
 
-=== All Contacts ===
-ID    Name                 Email                         
--------------------------------------------------------
-1     Alice Johnson        alice@email.com               
-2     Bob Wilson          bob@company.com               
-3     Carol Davis         carol.davis@startup.io        
+storage:
+  type: "gorm" # Switch between: memory, json, gorm
+  filepath: "contacts.db" # Auto-adapts: contacts.json for JSON, contacts.db for SQLite
 ```
 
-### Searching for a Contact
-```
-Choose an option (1-6): 3
-Enter contact ID to search: 2
+### Storage Options
 
-=== Contact Found ===
-ID: 2
-Name: Bob Wilson
-Email: bob@company.com
-```
+| Type     | Description               | Use Case                  | Persistence    |
+| -------- | ------------------------- | ------------------------- | -------------- |
+| `memory` | In-memory HashMap         | Testing, demos            | ❌ Per-command |
+| `json`   | Human-readable JSON       | Small datasets, debugging | ✅ File-based  |
+| `gorm`   | SQLite database with GORM | Production use            | ✅ Database    |
 
-### Updating a Contact
-```
-Choose an option (1-6): 4
-Enter contact ID to update: 1
-
-=== Current Contact Info ===
-ID: 1
-Name: Alice Johnson
-Email: alice@email.com
-Enter new name (current: Alice Johnson, press Enter to keep): Alice J. Johnson
-Enter new email (current: alice@email.com, press Enter to keep): 
-Contact updated successfully!
-```
-
-### Deleting a Contact
-```
-Choose an option (1-6): 5
-Enter contact ID to delete: 3
-Are you sure you want to delete contact: Carol Davis (carol.davis@startup.io)? (y/N): y
-Contact deleted successfully!
-```
-
-## Go Concepts Demonstrated
-
-### 🗺️ **Maps**
-- Uses `map[int]Contact` to store contacts with ID as key
-- Demonstrates map initialization, insertion, lookup, and deletion
-
-### 🔍 **Comma OK Idiom**
-```go
-contact, ok := crm.contacts[id]
-if !ok {
-    fmt.Printf("Contact with ID %d not found.\n", id)
-    return
-}
-```
-
-### 🔄 **Control Structures**
-- `switch` statement for menu navigation
-- `for` loop for continuous menu operation
-- `range` for iterating over contacts map
-
-### ⚠️ **Error Handling**
-- `if err != nil` pattern for error checking
-- Input validation and user-friendly error messages
-
-### 📊 **String Conversion**
-- `strconv.Atoi()` for converting string input to integers
-- Proper error handling for conversion failures
-
-### 📥 **Input/Output**
-- `bufio.Scanner` for reading user input from `os.Stdin`
-- `flag` package for command-line argument parsing
-
-### 🏗️ **Structs and Methods**
-- `Contact` struct with ID, Name, Email fields
-- `CRM` struct with methods for contact management
-- Constructor pattern with `NewCRM()`
-
-## Project Structure
+## 🏛️ Architecture
 
 ```
 mini-crm/
-├── main.go          # Main application code
-├── go.mod           # Go module definition
-└── README.md        # This file
+├── cmd/                    # 🎯 CLI Commands (Cobra)
+│   ├── root.go            # Root command & initialization
+│   ├── add.go             # Add contact command
+│   ├── list.go            # List contacts command
+│   ├── get.go             # Get contact command
+│   ├── update.go          # Update contact command
+│   └── delete.go          # Delete contact command
+├── internal/               # 🔒 Private application code
+│   ├── contact/           # 📋 Domain Layer
+│   │   ├── contact.go     # Contact model & validation
+│   │   └── service.go     # Business logic service
+│   ├── storage/           # 💾 Data Access Layer
+│   │   ├── interface.go   # Storage contract
+│   │   ├── factory.go     # Storage factory pattern
+│   │   ├── memory.go      # In-memory implementation
+│   │   ├── json.go        # JSON file implementation
+│   │   └── gorm.go        # SQLite/GORM implementation
+│   └── config/            # ⚙️ Configuration Layer
+│       └── config.go      # Viper configuration handling
+├── config.yaml            # 📝 Application configuration
+├── main.go                # 🚪 Application entry point
+└── go.mod                 # 📦 Go module definition
 ```
 
-## Code Architecture
+## 💡 Code Examples
 
-- **Contact Struct**: Represents individual contacts
-- **CRM Struct**: Manages the collection of contacts and provides methods
-- **Separation of Concerns**: Menu handling, input validation, and business logic are separated
-- **Error Handling**: Comprehensive error checking throughout the application
+### Adding a New Storage Backend
 
-## Building and Distribution
+Want to add Redis storage? Just implement the `Storer` interface:
 
-### Build executable:
+```go
+type RedisStore struct {
+    client *redis.Client
+}
+
+func (r *RedisStore) Create(contact *contact.Contact) error {
+    // Implement Redis storage logic
+    return nil
+}
+
+func (r *RedisStore) GetAll() ([]*contact.Contact, error) {
+    // Implement Redis retrieval
+    return contacts, nil
+}
+
+// Implement other interface methods...
+```
+
+Then add it to the factory:
+
+```go
+case StorageTypeRedis:
+    return NewRedisStore(filepath)
+```
+
+### Custom Validation Rules
+
+Extend validation by modifying the Contact model:
+
+```go
+func (c *Contact) Validate() error {
+    if err := c.basicValidation(); err != nil {
+        return err
+    }
+
+    // Add custom business rules
+    if strings.Contains(c.Name, "@") {
+        return errors.New("name cannot contain @ symbol")
+    }
+
+    return nil
+}
+```
+
+## 🎯 Advanced Usage
+
+### Custom Configuration Paths
+
 ```bash
-go build -o mini-crm main.go
+# Use custom config file
+./mini-crm --config /path/to/custom/config.yaml list
+
+# Environment-specific configs
+./mini-crm --config ./config/production.yaml list
 ```
 
-### Run the executable:
+### Batch Operations
+
 ```bash
-./mini-crm
+# Add multiple contacts
+./mini-crm add --name "John Doe" --email "john@example.com"
+./mini-crm add --name "Jane Smith" --email "jane@example.com"
+./mini-crm add --name "Bob Wilson" --email "bob@example.com"
+
+# Force delete without confirmation
+./mini-crm delete 1 --force
 ```
 
-### Cross-platform builds:
+### Storage Switching Examples
+
 ```bash
-# For Windows
-GOOS=windows GOARCH=amd64 go build -o mini-crm.exe main.go
+# Test with memory storage
+echo 'storage: {type: "memory"}' > test-config.yaml
+./mini-crm --config test-config.yaml add --name "Test User" --email "test@example.com"
 
-# For Linux
-GOOS=linux GOARCH=amd64 go build -o mini-crm-linux main.go
-
-# For macOS
-GOOS=darwin GOARCH=amd64 go build -o mini-crm-mac main.go
+# Switch to JSON for persistence
+echo 'storage: {type: "json", filepath: "backup.json"}' > prod-config.yaml
+./mini-crm --config prod-config.yaml list
 ```
 
-## Contributing
+## 🔬 Development
+
+### Building
+
+```bash
+# Development build
+go build -o mini-crm
+
+# Production build with optimizations
+go build -ldflags="-s -w" -o mini-crm
+
+# Cross-platform builds
+GOOS=windows GOARCH=amd64 go build -o mini-crm.exe
+GOOS=linux GOARCH=amd64 go build -o mini-crm-linux
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**❓ "Contact not found" when using memory storage**  
+💡 Memory storage doesn't persist between commands. Use JSON or GORM for persistence.
+
+**❓ Database file permissions error**  
+💡 Ensure directory is writable: `chmod 755 .`
+
+**❓ Configuration file not found**  
+💡 App searches: `./config.yaml` → `$HOME/.mini-crm/config.yaml` → `/etc/mini-crm/config.yaml`
+
+**❓ Phone validation failing**  
+💡 French mobile numbers must start with `06` or `07`
+
+## 🤝 Contributing
+
+We welcome contributions! This project is perfect for learning Go best practices.
+
+### 💡 Contribution Ideas
+
+- 📊 Export/import functionality (CSV, XML)
+- 🔍 Advanced search and filtering
+- 📱 International phone number validation
+
+### Getting Started
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Follow existing code patterns and SOLID principles
+4. Add tests for new functionality
+5. Submit a pull request with clear description
 
-## Learning Objectives Achieved
+## 📚 Learning Outcomes
 
-- ✅ Working with Go maps for data storage
-- ✅ Implementing the comma ok idiom
-- ✅ Using `for` loops and `switch` statements
-- ✅ Error handling with `if err != nil`
-- ✅ String conversion with `strconv`
-- ✅ Reading from `os.Stdin` with `bufio`
-- ✅ Command-line flag parsing
-- ✅ Struct definition and method implementation
-- ✅ Input validation and user experience design
+This project demonstrates essential Go concepts and best practices:
 
-## License
+- ✅ **Database Integration** - GORM/SQLite with auto-migration
+- ✅ **Professional CLI** - Cobra & Viper integration
+- ✅ **SOLID Architecture** - Maintainable "Lego brick" design
+- ✅ **Multiple Storage Backends** - Seamless switching without recompilation
+- ✅ **Production Ready** - Error handling, validation, and professional UX
 
-This project is open source.
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Author**: Georgy Guei  
-**Course**: Go Programming  
-**Project**: Mini Command Line CRM  
-**Date**: September 2025
+<div align="center">
+
+**Built for learning Go development best practices**
+
+_Author_: **Georgy Guei** | _Course_: **Go Programming** | _Version_: **2.0.0** | _Date_: **September 2025**
+
+</div>
