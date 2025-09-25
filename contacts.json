@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "John Smith",
+    "email": "johnsmith@newcompany.com",
+    "phone": "0612345678",
+    "created_at": "2025-09-25T18:03:01.819161+02:00",
+    "updated_at": "2025-09-25T18:27:30.726767+02:00"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane@company.com",
+    "phone": "0698765432",
+    "created_at": "2025-09-25T18:04:38.910212+02:00",
+    "updated_at": "2025-09-25T18:27:11.099959+02:00"
+  }
+]
